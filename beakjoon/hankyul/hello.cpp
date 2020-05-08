@@ -3,7 +3,11 @@
 using namespace std;
 
 int main(void){
-    cout << "hello world";
+    int a = 10;
+
+    cout << typeid(a);
 
     return 0;
 }
+
+
