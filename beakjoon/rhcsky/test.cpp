@@ -1,10 +1,17 @@
 #include <iostream>
+#include <sstream>
+#include <string>
+
 using namespace std;
 
-int main()
-{
-    cout << (1 & 4);
+int main() {
+	string inp;
+	getline(cin,inp);
+	stringstream ss(inp);
 
-
-    return 0;
+	string str;
+	while(ss>>str) {
+		cout<<str<<' ';
+	}
+	return 0;
 }
