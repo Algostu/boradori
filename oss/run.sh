@@ -1,8 +1,8 @@
 #!/bin/bash
 
-./build.sh $1
+../build.sh $1
 
 if [ "$?" = 0 ]
 then 
-	./output/$1
+	../output/$1
 fi

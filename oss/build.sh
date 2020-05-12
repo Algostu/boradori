@@ -8,7 +8,7 @@ fi
 
 if [ -e "$1.cpp" ]
 then
-	g++ -o output/$1 $1.cpp
+	g++ -o ../output/$1 $1.cpp
 else
 	echo "$1.cpp is not found"
 	exit 100
