@@ -4,7 +4,9 @@
 #include <math.h>
 #include <time.h>
 
-#define COMPARE(X, Y) (X) > (Y) ? 0 : ((X) == (Y) ? 0 : 1)
+#define _USE_MATH_DEFINES
+
+#define COMPARE(X, Y) (X) > (Y) ? 1 : ((X) == (Y) ? 1 : 0)
 
 #define SWAP(X, Y, T) T temp = (X); (X) = (Y); (Y) = temp;
 
@@ -14,19 +16,12 @@ if(((X) = malloc((Y)))==NULL){\
 }
 
 void solve(int test_num){
-	int a, b, c, temp;
-	while(1){
-		scanf("%d %d %d", &a, &b, &c);
-
-		if(a == 0 && b == 0 && c == 0) break;
-
-		if(COMPARE(a,b)) {SWAP(a, b, int)}
-
-		if(COMPARE(b, c)) {SWAP(b, c, int)}
-
-		if((a*a + b*b) == c*c) printf("right\n");
-		else printf("wrong\n");
-	}
+	double R;
+	
+	scanf("%lf", &R);
+	
+	printf("%.5f\n", R*R*M_PI);
+	printf("%.5f\n", R*R*2.0);
 }
 
 int main(){
