@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-#define COMPARE(X, Y) (X) > (Y) ? 0 : ((X) == (Y) ? 0 : 1)
+#define COMPARE(X, Y) (X) > (Y) ? 1 : ((X) == (Y) ? 1 : 0)
 
 #define SWAP(X, Y, T) T temp = (X); (X) = (Y); (Y) = temp;
 
