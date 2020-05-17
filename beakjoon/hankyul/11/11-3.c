@@ -10,7 +10,7 @@
 
 #define MALLOC(X, Y) \
 if(((X) = malloc((Y)))==NULL){\
-  fprintf(stderr, "mallc error"); exit(EXIT_FAILURE);\
+  fprintf(stderr, "malloc error"); exit(EXIT_FAILURE);\
 }
 
 int star(int n){
