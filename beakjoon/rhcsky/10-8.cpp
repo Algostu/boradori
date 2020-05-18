@@ -18,7 +18,6 @@ int main()
     do
     {
         scanf("%d %d", &front, &end);
-        cout << front - end;
         if (end-front-2==0)
         {
             cout << "0" << endl;
