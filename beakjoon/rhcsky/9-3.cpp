@@ -11,7 +11,7 @@ int main()
         sum += 6*i;
         if (input <= sum)
         {
-            cout << i;
+            cout << i+1;
             return 0;
         }
     }
