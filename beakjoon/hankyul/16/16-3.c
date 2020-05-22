@@ -20,6 +20,7 @@ if(((X) = calloc((Y), (Z)))==NULL){\
   fprintf(stderr, "callc error"); exit(EXIT_FAILURE);\
 }
 
+// damn it
 void solve(int test_num){
   int i, j, N, n, m, start, size;
   float ans = 0;
