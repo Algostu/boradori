@@ -15,50 +15,35 @@ if(((X) = malloc((Y)))==NULL){\
   fprintf(stderr, "mallc error"); exit(EXIT_FAILURE);\
 }
 
-#define CALLOC(X, Y, Z) \
-if(((X) = calloc((Y), (Z)))==NULL){\
-  fprintf(stderr, "callc error"); exit(EXIT_FAILURE);\
+int fibo(int n, int * arr, int* index){
+  if(n==0 || n == 1){
+    arr[n] = n%15746;
+    return arr[n];
+  }
+  if (n <= *index){
+    return arr[n];
+  } else{
+    arr[n-2] = fibo(n-2, arr, index);
+    if(*index < n-2) *index = n-2;
+    arr[n-1] = fibo(n-1, arr, index);
+    if(*index < n-1) *index = n-1;
+    arr[n] = (arr[n-1] + arr[n-2])%15746;
+    if(*index < n) *index = n;
+    return arr[n];
+  }
 }
 
 void solve(int test_num){
-  int i, j, k, k_1, N, n, m, start, size;
-  float ans = 0;
-  float arr[2][100001]={0};
+  int N, n;
+  int ans;
+  int arr[1000001];
 
   scanf("%d", &N);
 
-  arr[0][0] = (float)1/15746;
+  n = 0;
 
-  //debug
-  // printf("arr[0][0] : %f\n", arr[0][0]);
-
-  for(i=1;i<N+1;i++){
-    if(i <= N/2) {j = 0; start = j; size = i+1 - start;}
-    else {j = (i-N/2) * 2 - (N&1); start = j; size = i+1 - start;}
-
-    if(i % 2 == 1) {k_1 = 0; k = 1;}
-    else {k_1 = 1; k = 0;}
-
-    for(j;j<i+1;j++){
-
-      if(j-1 < 0) arr[k][j] = arr[k_1][j];
-      else if (j > i-1)  arr[k][j] = arr[k_1][j-1];
-      else arr[k][j] = arr[k_1][j-1] + arr[k_1][j];
-
-      arr[k][j] -= floor(arr[k][j]);
-
-      // debug
-      // printf("%d_C_%d : %f\n", i, j, arr[1][j]);
-    }
-
-    if(i >= N/2 + (N&1)){
-      ans += arr[k][(i-N/2) * 2 - (N&1)];
-      ans -= floor(ans);
-    }
-
-  }
-
-  printf("%.0f\n", ans*15746);
+  ans = fibo(N+1, arr, &n);
+  printf("%d\n", ans);
 }
 
 int main(){
@@ -68,7 +53,7 @@ int main(){
   //     solve();
   // }
 
-  solve(0);
+  	solve(0);
 
 	return 0;
 }
