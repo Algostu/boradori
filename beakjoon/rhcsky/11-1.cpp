@@ -14,5 +14,5 @@ int main()
 int factorial(int a){
     if(a==0 || a==1) return 1;
     
-    return factorial(a-1)*factorial(a-2);
+    return a * factorial(a-1);
 }
