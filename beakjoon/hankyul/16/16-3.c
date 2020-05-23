@@ -20,52 +20,42 @@ if(((X) = calloc((Y), (Z)))==NULL){\
   fprintf(stderr, "callc error"); exit(EXIT_FAILURE);\
 }
 
-// damn it
 void solve(int test_num){
-  int i, j, N, n, m, start, size;
+  int i, j, k, k_1, N, n, m, start, size;
   float ans = 0;
-  float arr[100][1001];
+  float arr[2][100001]={0};
 
   scanf("%d", &N);
 
-  // memory explode
-  // for(i=0;i<N+1;i++){
-  //   if(i<=N/2){
-  //     MALLOC(arr[i], sizeof(float) * (i+1));
-  //   } else {
-  //     j = (i-N/2) * 2 - (N&1); start = j; size = i+1 - start;
-  //     MALLOC(arr[i], sizeof(float) * size);
-  //     arr[i] -= j;
-  //   }
-  // }
-
-  arr[1][0] = (float)1/15746;
+  arr[0][0] = (float)1/15746;
 
   //debug
-  // printf("arr[1][0] : %f\n", arr[0][0]);
+  // printf("arr[0][0] : %f\n", arr[0][0]);
 
   for(i=1;i<N+1;i++){
     if(i <= N/2) {j = 0; start = j; size = i+1 - start;}
     else {j = (i-N/2) * 2 - (N&1); start = j; size = i+1 - start;}
 
+    if(i % 2 == 1) {k_1 = 0; k = 1;}
+    else {k_1 = 1; k = 0;}
+
     for(j;j<i+1;j++){
 
-      if(j-1 < 0) arr[i%99+1][j] = arr[i%99][j];
-      else if (j > i-1)  arr[i%99+1][j] = arr[i%99][j-1];
-      else arr[i%99+1][j] = arr[i%99][j-1] + arr[i%99][j];
+      if(j-1 < 0) arr[k][j] = arr[k_1][j];
+      else if (j > i-1)  arr[k][j] = arr[k_1][j-1];
+      else arr[k][j] = arr[k_1][j-1] + arr[k_1][j];
 
-      arr[i%99+1][j] -= floor(arr[i%99+1][j]);
+      arr[k][j] -= floor(arr[k][j]);
 
       // debug
       // printf("%d_C_%d : %f\n", i, j, arr[1][j]);
     }
 
     if(i >= N/2 + (N&1)){
-      ans += arr[i%99+1][(i-N/2) * 2 - (N&1)];
+      ans += arr[k][(i-N/2) * 2 - (N&1)];
       ans -= floor(ans);
     }
 
-    if((i+1)%99 == 0) memcpy(arr[0], arr[i%99+1], sizeof(float) * 1001);
   }
 
   printf("%.0f\n", ans*15746);
