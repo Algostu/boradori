@@ -1,4 +1,4 @@
-#include <stdio.h>
+c#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -15,43 +15,39 @@ if(((X) = malloc((Y)))==NULL){\
   fprintf(stderr, "mallc error"); exit(EXIT_FAILURE);\
 }
 
-typedef char (*C2ARR2188)[2188];
+void perm(int * arr, int index, int n, int r){
+	int i, j, found = 0;
 
-void star(int N, C2ARR2188 arr, int r, int c){
-	int i, j;
-	if(N==1){
-		arr[r][c] = '*';
+	if(index == r){
+		for(i=0;i<index;i++){
+			printf("%d ", arr[i]);
+		}
+		printf("\n");
 	} else{
-		for(i=0;i<3;i++){
-			for(j=0;j<3;j++){
-				if(i==1 && j==1) continue;
+		for(i=0;i<n;i++){
+			found = 0;
+			for(j=0;j<index;j++){
+				if(arr[j] == i+1) found = 1;
+			}
 
-				star(N/3, arr, r + i*N/3, c + j*N/3);
+			if(found == 1) continue;
+			else{
+				arr[index] = i+1;
+				perm(arr, index+1, n, r);
 			}
 		}
 	}
-
 }
 
 void solve(int test_num){
-	int N, i, j;
-	char some_place[2187][2188];
+	int i;
+	int N, M;
+	int As[8];
 
+	scanf("%d %d", &N, &M);
 
-	scanf("%d", &N);
+	perm(As, 0, N, M);
 
-	for(i=0;i<N;i++){
-		for(j=0;j<N;j++){
-			some_place[i][j] = 32;
-		}
-		some_place[i][N] = '\0';
-	}
-
-	star(N, some_place, 0, 0);
-
-	for(i=0;i<N;i++){
-		printf("%s\n", some_place[i]);
-	}
 }
 
 int main(){

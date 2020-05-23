@@ -4,40 +4,16 @@
 #include <math.h>
 #include <time.h>
 
-int sigma(int n){
-  return n * (n + 1 ) / 2;
-}
-
 void solve(int test_num){
-  int x, y, i, distance, where=1, move = 1, count = 1;
+  int x, y, i, j, distance, ans;
+  int n;
   scanf("%d %d", &x, &y);
 
   distance = y - x;
-
-  while(where < distance){
-    for(i=1;i>-2;i--){
-      /* slow version */
-      // if(sigma(i+move) <= (distance - where)){
-      //   move += i;
-      //   where += move;
-      //   count++;
-      //   break;
-      // }
-
-      /* fast version */
-      if(sigma(i+move) < (distance - where)){
-        move += i;
-        where += move;
-        count++;
-        break;
-      } else if (sigma(i+move) == (distance - where)){
-        printf("%d\n", count+i+move);
-        return;
-      }
-    }
-  }
-
-  printf("%d\n", count);
+  n = (int)ceil(sqrt(distance));
+  if(n*n - distance < n) ans = 2*n - 1;
+  else ans = 2*n - 2;
+  printf("%d\n", ans);
 }
 
 int main(){
