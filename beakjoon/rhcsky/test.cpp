@@ -1,22 +1,55 @@
-#include <iostream>
-#include <vector>
+#include <cstdio>
 using namespace std;
 
-int main()
-{
-    vector<string> a[5];
-    vector<int> b[5];
-    a[0].push_back("Hi ");
-    a[0].push_back("My name is");
+bool grid[14][14] = { false, };
+int ans = 0;
+int N;
 
-    cout << a[0][0] << a[0][1] << endl;
-
-    for (int i = 11 - 1; i >= 0; i--)
-    {
-        b[0].push_back(i);
+bool isValid(int i, int cnt) {
+    int x, y;
+    for (x = 0; x < cnt; x++) {
+        if (grid[i][x]) return false;
     }
-    for (auto &&i : b[0])
-    {
-        cout << i << "  ";
-    }    
+
+    for (x = cnt - 1, y = i - 1; y >= 0; x--, y--) {
+        if (grid[y][x]) return false;
+    }
+
+    for (x = cnt - 1, y = i + 1; y < N; x--, y++) {
+        if (grid[y][x]) return false;
+    }
+    
+    return true;
+
+}
+
+void dfs(int cnt) {
+    
+    int i;
+
+    // basecase
+    if (cnt == N) {
+        ans++;
+        return;
+    }
+
+    for (i = 0; i < N; i++) {
+        if (!grid[i][cnt] && isValid(i, cnt)) {
+            // constraint satisfied
+            grid[i][cnt] = true;
+            dfs(cnt+1);
+            grid[i][cnt] = false;
+        }
+    }
+
+}
+
+int main() {
+
+    scanf("%d", &N);
+
+    dfs(0);
+    printf("%d\n", ans);
+
+    return 0;
 }
