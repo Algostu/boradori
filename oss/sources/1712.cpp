@@ -2,13 +2,24 @@
 
 int main()
 {
-	int a;
-	int b;
+	long long a;
+	long long b; 
 	long long c;
 
 	std::cin >> a >> b >> c;
 
-	long long cost = a;
+	if (b >= c)
+	{
+		std::cout << "-1" << std::endl;
+		return 0;
+	}
 
-	while (cost < 
+	long long totalCost = a;
+	long long laptopCost = 0;
 
+	int answer = a / (c - b) + 1;	
+
+	std::cout << answer << std::endl;
+
+	return 0;
+}
