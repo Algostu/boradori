@@ -8,6 +8,5 @@ int main()
     getline(cin,input);
     sort(input.rbegin(),input.rend());
     cout << input;
-    
     return 0;
 }

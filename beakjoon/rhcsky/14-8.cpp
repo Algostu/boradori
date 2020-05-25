@@ -18,7 +18,6 @@ int main()
     sort(v.begin(),v.end());
     v.erase(unique(v.begin(),v.end()),v.end());
 
-    cout << v[1].second << endl;
     for (auto &&i : v)
     {
         printf("%s\n",i.second.c_str());
