@@ -8,11 +8,10 @@ def solution(total_sp, skills):
 
     skill_array = []
     for skill in skills:
-        skill_array.append(Skill(skill[0],skill[1],1))
+        skill_array.append(Skill(skill[0],skill[1],0))
 
-    skill_array.sort()
-
-    
+    for skill in skill_array:
+        
 
 
 
