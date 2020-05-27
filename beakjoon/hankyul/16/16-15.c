@@ -15,20 +15,20 @@ if(((X) = malloc((Y)))==NULL){\
   fprintf(stderr, "mallc error"); exit(EXIT_FAILURE);\
 }
 
-int DP(int width, int max, int size, int * arr, int * memo){
-  int result = 0, temp;
+// maximum sequence sum
+int MSS(int N, int * arr, int * memo){
+  int left, right, max;
 
-  for(int i = (width-1); i<size; i++){
-    memo[i-(width-1)] += arr[i];
-    if(max < memo[i-(width-1)]) max = memo[i - (width-1)];
-  }
-  // printf("width : %d size : %d max : %d\n", width, size, max);
-
-  if(width == size) return max;
+  if(N==1) max = arr[N-1];
   else {
-    temp = DP(width+1, max, size, arr, memo);
-    return COMPARE(max, temp);
+    left = arr[N-1];
+    right = arr[N-1] + MSS(N-1, arr, memo);
+    max = COMPARE(left, right);
   }
+
+  memo[N-1] = max;
+
+  return max;
 }
 
 void solve(int test_num){
@@ -38,10 +38,15 @@ void solve(int test_num){
   for(int i = 0; i<N;i++){
     scanf("%d", arr+i);
     memo[i] = 0;
-    if(max < arr[i]) max = arr[i];
   }
 
-  printf("%d\n", DP(1, max, N, arr, memo));
+  MSS(N, arr, memo);
+
+  for(int i = 0; i<N;i++){
+    if(max < memo[i]) max = memo[i];
+  }
+
+  printf("%d\n", max);
 }
 
 int main(){

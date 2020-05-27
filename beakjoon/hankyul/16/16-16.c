@@ -18,29 +18,25 @@ if(((X) = malloc((Y)))==NULL){\
 typedef struct __object{
   int w;
   int v;
-  int in;
 } object;
 
-int high_value(object * bag, int index, int N, int K, object * arr){
-  int max = bag->v, temp;
-
-  for(int i = index; i < N; i++){
-    if(arr[i].in == 0 && bag->w + arr[i].w <= K){
-      bag->w += arr[i].w;
-      bag->v += arr[i].v;
-      arr[i].in = 1;
-      temp = high_value(bag, i+1, N, K, arr);
-      bag->w -= arr[i].w;
-      bag->v -= arr[i].v;
-      arr[i].in = 0;
-      if(max < temp) max = temp;
-    }
+int KS(int N, int K, object * objs, int (*memo)[1001]){
+  int left, right, max = 0;
+  if(memo[N][K] != -1) max = memo[N][K];
+  else if(N==0 || K==0) max = 0;
+  else if(objs[N-1].w > K) max = KS(N-1, K, objs, memo);
+  else {
+    left = objs[N-1].v + KS(N-1, K-objs[N-1].w, objs, memo);
+    right = KS(N-1, K, objs, memo);
+    max = COMPARE(left, right);
   }
+  memo[N][K] = max;
   return max;
 }
 
 void solve(int test_num){
   int N, K;
+  int memo[101][1001];
   object objs[100];
   object bag = {0, 0};
 
@@ -48,10 +44,15 @@ void solve(int test_num){
 
   for(int i = 0; i<N;i++){
     scanf("%d %d", &objs[i].w, &objs[i].v);
-    objs[i].in = 0;
   }
 
-  printf("%d\n", high_value(&bag, 0, N, K, objs));
+  for(int i = 0; i<101;i++){
+    for(int j = 0; j<1001; j++){
+      memo[i][j] = -1;
+    }
+  }
+
+  printf("%d\n", KS(N, K, objs, memo));
 }
 
 int main(){

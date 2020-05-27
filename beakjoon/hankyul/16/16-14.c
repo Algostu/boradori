@@ -15,33 +15,48 @@ if(((X) = malloc((Y)))==NULL){\
   fprintf(stderr, "mallc error"); exit(EXIT_FAILURE);\
 }
 
-int LCS(int a, int b, int N, int M, char * A, char * B, int (*memo)[1000]){
+int LCS(int N, int M, char * A, char * B, int (*memo)[1001]){
   int max = 0;
+  int left, right;
+  // printf("N : %d M : %d \n", N, M);
+  if(memo[N][M] != -1) return memo[N][M];
 
-  for(int i = a; i<N; i++){
-    for(int j = b; j<M; j++){
-      if (memo[i][j] != -1 && max < memo[i][j]) max = memo[i][j];
-      else if(A[i] == B[j]) {memo[i][j] = 1 + LCS(i+1, j+1, N, M, A, B, memo); if(max < memo[i][j]) max = memo[i][j]; break;}
-    }
+  else if (N == 0 || M == 0) max = 0;
+
+  else if (A[N-1] == B[M-1]) max = 1 + LCS(N-1, M-1, A, B, memo);
+
+  else {
+    left = LCS(N-1, M, A, B, memo);
+    right = LCS(N, M-1, A, B, memo);
+    max = COMPARE(left, right);
   }
+
+  memo[N][M] = max;
 
   return max;
 }
 
 void solve(int test_num){
-  int memo[100][1000];
+  int memo[101][1001];
   char A[1001], B[1001];
 
   scanf("%s", A);
   scanf("%s", B);
 
-  for(int i=0; i<strlen(A); i++){
-    for(int j=0; j<strlen(B); j++){
+  for(int i=0; i<=strlen(A); i++){
+    for(int j=0; j<=strlen(B); j++){
       memo[i][j] = -1;
     }
   }
 
-  printf("%d\n", LCS(0, 0, strlen(A), strlen(B), A, B, memo));
+  printf("%d\n", LCS(strlen(A), strlen(B), A, B, memo));
+
+  // for(int i=0; i<strlen(A); i++){
+  //   for(int j=0; j<strlen(B); j++){
+  //     printf("%4d ", memo[i][j]);
+  //   }
+  //   printf("\n");
+  // }
 
 }
 

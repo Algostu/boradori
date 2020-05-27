@@ -15,61 +15,47 @@ if(((X) = malloc((Y)))==NULL){\
   fprintf(stderr, "mallc error"); exit(EXIT_FAILURE);\
 }
 
-int drink(int i, int c, int n, int * juice, int (*memo)[3]){
-  int d = 0, d_1 = juice[i], d_2 = juice[i], d_3 = juice[i], big;
+int A(int N, int C, int * drink, int (*memo)[3]){
+  int max, left, right;
 
-  if(i+1 == n) return juice[i];
+  if (memo[N][C] != -1) return memo[N][C];
 
-  if(c != 1) {
-    if(memo[i][0]!=-1) d_1 = memo[i][0];
-    else {
-      d_1 += drink(i+1, c+1, n, juice, memo);
-      memo[i][0] = d_1;
-    }
-  }
-  if(i+2 != n) {
-    if(memo[i][1]!=-1) d_2 = memo[i][1];
-    else{
-      d_2 += drink(i+2, 0, n, juice, memo);
-      memo[i][1] = d_2;
-    }
-  }
-  if(i+3 != n){
-    if(memo[i][2]!=-1) d_3 = memo[i][2];
-    else{
-      d_3 += drink(i+3, 0, n, juice, memo);
-      memo[i][2] = d_3;
-    }
+  if (N <= 0) max = 0;
+  else if (C == 2) max = A(N-1, 0, drink, memo);
+  else {
+    left = drink[N-1] + A(N-1, C+1, drink, memo);
+    right = A(N-1, 0, drink, memo);
+    max = COMPARE(left, right);
   }
 
-  big = COMPARE(d_1, d_2);
+  memo[N][C] = max;
 
-  return COMPARE(big, d_3);
+  return max;
 }
 
 void solve(int test_num){
-  int N, i, j, ans=0, juice[10000], memo[10000][3];
+  int N, i, j, ans=0, juice[10000], memo[10001][3];
   scanf("%d", &N);
 
   for(i=0;i<N;i++){
     scanf("%d", juice+i);
+  }
+
+  for(i=0; i<=N; i++){
     for(j=0;j<3;j++){
       memo[i][j] = -1;
     }
   }
 
-  if(N==1) { printf("%d\n", juice[0]); return; }
-  else if(N==2) { printf("%d\n", juice[0] + juice[1]); return; }
-
-  printf("%d\n", COMPARE(drink(0, 0, N, juice, memo), drink(1, 0, N, juice, memo)));
+  printf("%d\n", A(N, 0, juice, memo));
 
   // debug
-  for(i=0;i<N;i++){
-    for(j=0;j<2;j++){
-      printf("%4d", memo[i][j]);
-    }
-    printf("\n");
-  }
+  // for(i=0;i<=N;i++){
+  //   for(j=1;j<=2;j++){
+  //     printf("%4d", memo[i][j]);
+  //   }
+  //   printf("\n");
+  // }
 
 }
 
