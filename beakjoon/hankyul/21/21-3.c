@@ -16,8 +16,45 @@ if(((X) = malloc((Y)))==NULL){\
   fprintf(stderr, "mallc error"); exit(EXIT_FAILURE);\
 }
 
-void solve(int test_num){
+int queue[1500];
+int front = 0;
+int rear = 0;
 
+void push(int val){
+  if(rear == 1500) rear = 0;
+  queue[rear++] = val;
+}
+
+int pop(void){
+  int ans = queue[front++];
+  if(front == 1500) front = 0;
+  return ans;
+}
+
+int size(void){
+  if(front < rear) return rear - front;
+  else return 1500 - (front - rear);
+}
+
+void solve(int test_num){
+  int N, K;
+  int i;
+
+  scanf("%d %d", &N, &K);
+  for(i=0;i<N;i++){
+    queue[i] = i+1;
+  }
+  rear = N;
+
+  printf("<");
+  while(size()!=1){
+    for(i=0;i<K-1;i++){
+      push(pop());
+    }
+    printf("%d, ", pop());
+  }
+
+  printf("%d>\n", pop());
 }
 
 int main(){

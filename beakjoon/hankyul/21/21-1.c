@@ -26,32 +26,29 @@ void push(int val){
 
 void pop(void){
   int i;
-  if(bound==0) printf("-1\n");
+  if(bound==out) {printf("-1\n"); bound = out = 0;}
   else {
-    printf("%d\n", queue[0]);
-    bound--;
-    for(i=0;i<bound;i++){
-      queue[i] = queue[i+1];
-    }
+    printf("%d\n", queue[out]);
+    out++;
   }
 }
 
 void size(void){
-  printf("%d\n", bound);
+  printf("%d\n", bound-out);
 }
 
 void empty(void){
-  if(bound == 0) printf("1\n");
+  if(bound == out) { printf("1\n"); bound = out = 0;}
   else printf("0\n");
 }
 
 void front(void){
-  if(bound == 0) printf("-1\n");
-  else printf("%d\n", queue[0]);
+  if(bound == out) { printf("-1\n"); bound = out = 0;}
+  else printf("%d\n", queue[out]);
 }
 
 void back(void){
-  if(bound==0) printf("-1\n");
+  if(bound==out) { printf("-1\n"); bound = out = 0;}
   else printf("%d\n", queue[bound-1]);
 }
 
