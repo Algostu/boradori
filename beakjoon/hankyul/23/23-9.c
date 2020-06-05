@@ -16,6 +16,7 @@ if(((X) = malloc((Y)))==NULL){\
   fprintf(stderr, "malloc error"); exit(EXIT_FAILURE);\
 }
 
+// This code get TE
 void solve(int test_num){
   int i, j, k;
   int heights[100000] = {0};
