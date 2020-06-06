@@ -3,9 +3,7 @@ using namespace std;
 
 int main()
 {
-    string s;
-    s = (1>2) ? "true":"false";
-
-    cout << s;
+    int x = 10;
+    cout << double(x);
     return 0;
 }
