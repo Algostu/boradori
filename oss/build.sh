@@ -9,6 +9,7 @@ fi
 if [ -e "$1.cpp" ]
 then
 	g++ -o ../output/$1 $1.cpp
+
 else
 	echo "$1.cpp를 찾을 수 없음" 
 	exit 100
