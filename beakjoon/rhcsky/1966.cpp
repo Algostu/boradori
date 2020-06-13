@@ -36,7 +36,7 @@ int main()
                 break;
             }
         }
-        cout << "Head is " << head << endl;
+        
         for (int i = 9; i > que[index].second; i--)
         {
             if(numbers[i].size() == 0) continue;
