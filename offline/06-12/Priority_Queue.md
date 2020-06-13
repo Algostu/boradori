@@ -24,15 +24,13 @@ Array A에서 A[i]에 대응되는 노드들을 알아보자
 ### `push`연산
 새 노드를 `heap[]`의 마지막에 추가하고 자신의 `parent`와 크기를 비교한 뒤 `swap`하며 자리를 정한다.
 ```cpp
-void push(int data){
-    heap[++heap_count] = data;
+void push(Heap *h, int data){
+    int i = ++(h->heap_size);
+    h->heap[i] = data;
 
-    int child = heap_count;
-    int parent = child/2;
-    while(child > 1 && heap[parent]<heap[child]>){
-        swap(&heap[parent] < heap[child]);
-        child = parent;
-        parent = child/2;
+    while(i>1 && h->heap[i] > h->heap[i/2]){
+        swap(h->heap[i],h->heap[i/2]);
+        i /= 2;
     }
 }
 ```
@@ -40,26 +38,21 @@ void push(int data){
 ### `pop`연산
 `root node`가 빠져나오기 때문에 CBT를 유지하기 위해선 `마지막 node`가 `root node`로 올라와야 한다. 마지막 노드가 루트 노드로 올라온 뒤 자식들과 크기를 비교하며 자식이 없거나 자식이 자신보다 모두 작을 때 까지 내려간다. 이 때 자식들과 swap을 해야 한다면 Max heap 기준으로 둘 중 더 큰 값과 swap 해야한다.
 ```cpp
-int pop(){
-    int result = heap[1];
-    swap(&heap[1], &heap[heap_count]);
-    heap_count--;
+int pop(Heap *h){
+    int result = h->heap[1];
+    swap(h->heap[(h->heap_size)--],h->heap[1]);
 
     int parent = 1;
     int child = parent*2;
-    if(child + 1 <= heap_count>){
-        child = (heap[child]>heap[child+1]) ? child : child+1;
-    }
+    while(child <= h->heap_size){
+        if(child < h->heap_size && h->heap[child] < h->heap[child+1]) child++;
+        if(h->heap[child] < h->heap[parent]) break;
 
-    while(child <= heap_count && heap[parent] < heap[child]>){
-        swap(&heap[parent],&heap[child]);
+        swap(h->heap[child],h->heap[parent]);
         parent = child;
-        chile = parent*2;
-        if(child + 1 <= heap_count){
-            chile = heap[child] > heap[child+1] ? child : child+1;
-        }
+        child *= 2;
     }
-return result;
+    return result;
 }
 ```
 
