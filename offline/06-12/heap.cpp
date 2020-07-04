@@ -42,7 +42,7 @@ int main()
     scanf("%d", &N);
     Heap h;
     for (int i = 0; i < N; i++)
-    {
+    {a
         scanf("%d", &input);
         if(input == 0){
             cout << "Heap size is = " << h.heap_size << endl;
