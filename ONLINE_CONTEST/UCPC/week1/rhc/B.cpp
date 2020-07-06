@@ -1,41 +1,44 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
+
+vector<pair<int,int>> arr;
+vector<pair<int,int>> tmp;
 
 int main()
 {
-    int N,a,b;
-    
-    vector<pair<int,int>> v,vv,r;
-    scanf("%d", &N);
+    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    int N;
+    cin >> N;
 
     for (int i = 0; i < N; i++)
     {
-        scanf("%d %d", &a, &b);
-        v.push_back({a,b});
+        int a,b;
+        cin >> a >> b;
+        arr.push_back({a,b});
+        tmp.push_back({a,1});
+        tmp.push_back({b+1,-1});
     }
-    vv=v;
-    sort(vv.begin(),vv.end());
-    
-    while(1){
-        cout << r.size();
-        if(r.size()==1) break;
-        for (int i = 0; i < vv.size()-1; i=i+2)
-        {
-            r.push_back({max(vv[i].first,vv[i+1].first),min(vv[i].second,vv[i+1].second)});
-        }
-        vv.clear();
-        vv=r;
-    }
-    cout << "F";
-    for (auto &&i : r)
+
+    sort(tmp.begin(),tmp.end());
+
+    int ck{}, s{}, cnt{};
+
+    for (auto &&i : tmp)
     {
-        cout << i.first << endl;
-        cout << i.second << endl;
+        cnt += i.second;
+        if(s < cnt){
+            s = cnt;
+            ck = i.first;
+        }
     }
     
+    cout << s << endl;
 
-
+    for (int i = 0; i < N; i++)
+    {
+        if(arr[i].first <= ck && arr[i].second >= ck)
+            cout << i+1 << " ";
+    }
+    
     return 0;
 }
