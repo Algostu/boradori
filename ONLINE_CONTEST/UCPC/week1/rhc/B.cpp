@@ -31,7 +31,7 @@ int main()
             ck = i.first;
         }
     }
-    
+
     cout << s << endl;
 
     for (int i = 0; i < N; i++)
@@ -39,6 +39,6 @@ int main()
         if(arr[i].first <= ck && arr[i].second >= ck)
             cout << i+1 << " ";
     }
-    
+
     return 0;
 }
