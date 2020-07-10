@@ -16,7 +16,7 @@ void BFS(int N, int K){
         q.pop();
 
         if(now == K){
-            cout << time-1 << endl;
+            cout << time << endl;
             break;
         }
         if(now+1 < MAX && !visit[now+1]){
