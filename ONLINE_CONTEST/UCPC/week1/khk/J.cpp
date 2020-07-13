@@ -1,170 +1,169 @@
 #include <iostream>
 #include <cstring>
+#include <string>
+#include <vector>
+#include <map>
+
 using namespace std;
 
 
 class DV
 {
-	char names[100][25];
-	long long d[100][100];
+	map<string,int> names;
+	double d[100][100];
 	int N;
 	public:
 		DV(int n)
 			:N(n)
 		{
-			printf("%d\n", N);
-		
-			for(int i =0;i<N;i++){
-				for(int j=0;j<N;j++){
-					d[i][j] = 1000000;
+			for(int i =0;i<n;i++){
+				for(int j=0;j<n;j++){
+					if(i==j) d[i][j] = 0;
+					else d[i][j] = 987654321;
 				}
 			}
 		}
-		
-		void set_cost(int i, int j, int cost){
+
+		int get_path_index(const string name){
+			return names[name];
+		}
+
+		void set_cost(int i, int j, double cost){
 			if(d[i][j] > cost) d[i][j] = cost;
 		}
-		
-		void set_name(int i, const char * name){
-			strcpy(names[i], name);	
+
+		void set_name(int i, const string name){
+			names[name] = i;
 		}
-		
-		int get_minimum_cost(char (*path)[25], int len){
-			int sum = 0;
+
+		double get_minimum_cost(vector<string> path, int len){
+			double sums = 0;
 			int start, end;
-			
-			for(int j=0; j<N; j++)
-				if(strcmp(names[j], path[0])==0){
-					start = j;
-					break;
-			}
-			
+
 			for(int i=0; i<len-1;i++){
-				for(int j=0; j<N; j++)
-					if(strcmp(names[j], path[i+1])==0){
-						end = j;
-						break;
-					}
-				printf("[%d]%s -> %s : %lld\n", i, path[i], path[i+1], d[start][end]);
-				sum += d[start][end];
-				start = end;					
+				start = names[path[i]];
+				end = names[path[i+1]];
+
+				// printf("[%d]%s -> %s : %f\n", i, path[i].c_str(), path[i+1].c_str(), d[start][end]);
+				sums += d[start][end];
 			}
-			
-			return sum;
+
+			// printf("total : %f\n", sums);
+			return sums;
 		}
-		
-		int init_minimum_cost(){
+
+		void init_minimum_cost(){
 			for (int k = 0; k < N; ++k) {
-
    				for (int i = 0; i < N; ++i) {
-
        				for (int j = 0; j < N; ++j) {
-						//set_cost(i, j, d[i][k]+d[k][j]);
-						
-        				if (d[i][j] > (d[i][k] + d[k][j])) {
-                			d[i][j] = d[i][k] + d[k][j];
-							printf("%d -> %d : %lld\n", i, j, d[i][j]);
-            			}
-						
-
+									set_cost(i, j, d[i][k]+d[k][j]);
+		        			// 	if (d[i][j] > (d[i][k] + d[k][j])) {
+		              //   			d[i][j] = d[i][k] + d[k][j];
+									// printf("%d -> %d : %lld\n", i, j, d[i][j]);
+		            	// 		}
         			}
    				}
 			}
 		}
-	
+
 };
 
-int solve(void){
-	
-	char names[100][25];
-	char path[200][25];
-	char type_path[50];
-	char start[50], end[50];
-	char nailro[5][40] = {
+void solve(void){
+	string names;
+	string input;
+	vector<string> path;
+	string type_path;
+	string start, end;
+	vector<string> nailro{
 		"Mugunghwa", "ITX-Saemaeul", "ITX-Cheongchun",
 		"S-Train", "V-Train"
 	};
-	
-	int N, R, M, K, cost, s, e;
+
+	double cost, R;
+	int N, M, K, s, e;
 	bool find_s, find_e, special_price, package;
-	
-	cin >> N >> R;
-	
+
+	// cin >> N >> R;
+	scanf("%d %lf", &N, &R);
+
 	DV none_Rail(N), Rail(N);
-	
+
 	for(int i=0; i<N; i++)
 	{
-		cin >> names[i];
-		none_Rail.set_name(i, names[i]);
-		Rail.set_name(i, names[i]);
+		cin >> names;
+		// scanf("%s", names);
+		none_Rail.set_name(i, names);
+		Rail.set_name(i, names);
 	}
-	
-	cin >> M;
-	
-	for(int i=0; i<M; i++)
-		cin >> path[i];
-	
-	cin >> K;
-	
+
+	// cin >> M;
+	scanf("%d", &M);
+
+	for(int i=0; i<M; i++){
+		cin >> input;
+		path.push_back(input);
+	}
+	// cin >> K;
+	scanf("%d", &K);
+
 	for(int i=0; i<K; i++)
 	{
-		find_s = find_e = package = special_price = false;
-		
-		cin >> type_path >> start >> end >> cost;
-		
+		package = special_price = false;
+
+		cin >> type_path >> start >> end;
+		scanf("%lf", &cost);
+
 		// find name
-		for(int j = 0; j<N; j++)
-		{
-			if(strcmp(start, names[j]) == 0)
-			{
-				s = j;
-				find_s = true;
-			}
-			
-			if(strcmp(end, names[j]) == 0)
-			{
-				e = j;
-				find_e = true;
-			}
-			
-			if(find_s==true && find_e==true) break;
-		}
-		
+		s = Rail.get_path_index(start);
+		e = Rail.get_path_index(end);
+
 		// 50% sale
-		for(int j=0; j<3; j++)
-			if(strcmp(type_path, nailro[j])==0)
-				special_price = true;
-				
-		// free		
 		for(int j=3; j<5; j++)
-			if(strcmp(type_path, nailro[j])==0)
+			if(type_path == nailro[j])
+				special_price = true;
+
+		// free
+		for(int j=0; j<3; j++)
+			if(type_path == nailro[j])
 				package = true;
-						
+
 		none_Rail.set_cost(s, e, cost);
 		none_Rail.set_cost(e, s, cost);
-		if(special_price == true)
+
+		if(special_price)
+		{
 			Rail.set_cost(s, e, cost/2);
 			Rail.set_cost(e, s, cost/2);
-		if(package == true)
+		}
+		else if(package)
+		{
 			Rail.set_cost(s, e, 0);
 			Rail.set_cost(e, s, 0);
+		}
+		// 이부분은 다른사람 코드를 참고해서 빠진것을 파악했다.
+		else{
+			Rail.set_cost(s, e, cost);
+			Rail.set_cost(e, s, cost);
+		}
 	}
-	
-	int min_cost = 99999;
-	int cost_r, cost_none_r;
-	
+
+	double cost_r, cost_none_r;
+
 	none_Rail.init_minimum_cost();
-	Rail.init_minimum_cost();	
-	cost_none_r = none_Rail.get_minimum_cost(path, K);
-	cost_r = Rail.get_minimum_cost(path, K);
-	
-	printf("%s\n", cost_none_r >= cost_r ? "No" : "Yes");
-		
-	
+	Rail.init_minimum_cost();
+	cost_none_r = none_Rail.get_minimum_cost(path, M);
+	cost_r = Rail.get_minimum_cost(path, M);
+
+	// printf("none railro : %f \nrailro : %f \n", cost_none_r, cost_r);
+	if(cost_none_r <= cost_r+R ? true : false){
+		printf("No\n");
+	} else {
+		printf("Yes\n");
+	}
+
 }
 
 int main(void){
 	solve();
 	return 0;
 }
-
