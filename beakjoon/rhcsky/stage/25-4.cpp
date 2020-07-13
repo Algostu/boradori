@@ -29,6 +29,5 @@ int main()
         printf("%d\n",maxheap.top());
     }
     
-
     return 0;
 }
