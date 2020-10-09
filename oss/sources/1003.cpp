@@ -1,9 +1,6 @@
 #include <iostream>
 #include <utility>
 
-#define __linux__
-#define __x86_64__
-
 template <class T, class I>
 struct Pair
 {
