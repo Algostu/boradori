@@ -2,8 +2,8 @@
 
 using namespace std;
 
-void solve(){
-    cout << "hello world\n";
+void solve(){ 
+    cout << "hello world\n"; 
     return;
 }
 
