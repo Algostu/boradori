@@ -9,5 +9,7 @@
 # ignore build file
 *.o
 Makefile
+*.out
 
+*.swp
 
