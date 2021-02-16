@@ -2,29 +2,28 @@
 
 using namespace std;
 
+struct shape{
+    int m;
+    int n;
+};
+
 typedef vector<vector<int>> matrix;
 
 int solve(){
     int N;
     cin >> N;
     matrix a(N+1, vector<int>(N+1, INT_MAX));
-    vector<int> b(N+1, 0);
+    vector<shape> s(N+1);
     for(int i=1; i<=N; i++){
-        int temp;
-        scanf("%d", &temp);
+        scanf("%d %d", &s[i].m, &s[i].n);
         a[i][i] = 0;
-        b[i] += b[i-1] + temp;
     }
-    
     for(int end=2; end<=N; end++){
         for(int start=end-1; start>0; start--){
             for(int mid=start; mid<end; mid++){
-                int value = b[end] - b[start-1] ;
+                int value = s[start].m * s[mid].n * s[end].n; 
                 int cost = value + a[start][mid] + a[mid+1][end];
-                if (cost < a[start][end]){
-                    a[start][end] = cost;
-                }
-
+                a[start][end] = min(a[start][end], cost);
             }
         }
     }
@@ -34,11 +33,7 @@ int solve(){
 }
 
 int main(){
-    int T;
-    cin >> T;
-    for(int i=0; i<T; i++){
-        cout << solve() << "\n";
-    }
+    cout << solve() << "\n";
     return 0;
 }
 
