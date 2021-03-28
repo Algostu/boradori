@@ -13,3 +13,5 @@ Makefile
 
 *.swp
 
+*input.txt
+
