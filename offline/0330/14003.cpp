@@ -25,16 +25,18 @@ int main(void){cin.tie(NULL); cout.tie(NULL); ios_base::sync_with_stdio(false);
     int s, e;
     s = e = ans.size() - 1;
     cout << ans.size() << endl;
-    while(s!=0){
-        if(ans_idx[s-1] > ans_idx[e]) s--;
-        else if (s < e) { 
+    while(e!=0){
+        if(s!=0 and ans_idx[s-1] > ans_idx[e]) s--;
+        else if (s==0 or s < e) { 
             // [s, e)
             // cout << s << " " << e << endl;
             int tmp, x;
             tmp = ans_idx[e];
-            while(x = arr[--tmp]){
+            while(true){
+                // assert(tmp >= 0);
+                x = arr[--tmp];
                 // cout << tmp << endl;
-                if(ans[e] > x and ans[s] <= x){
+                if(ans[e] > x and (s==0 or ans[s-1] < x)){
                     ans[e-1] = x;
                     ans_idx[e-1] = tmp;
                     break;
@@ -48,6 +50,10 @@ int main(void){cin.tie(NULL); cout.tie(NULL); ios_base::sync_with_stdio(false);
         cout << ans[i] << " ";
     }
     cout << endl;
-
+    for(int i=0; i<ans.size(); i++){
+        cout << ans_idx[i] << " ";
+    }
+    cout << endl;
+    
     return 0;
 }
